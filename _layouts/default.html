@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'es' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  <style>
+    body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
+    .lang-switcher { display: flex; gap: 0.5rem; }
+    .lang-switcher a { text-decoration: none; color: #007bff; padding: 0.25rem 0.5rem; border-radius: 4px; }
+    .lang-switcher a.active { background-color: #e9ecef; color: #495057; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{{ page.title }}</h1>
+    <div class="lang-switcher" id="langSwitcher"></div>
+  </header>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <footer style="margin-top: 3rem; color: #6c757d; font-size: 0.9rem;">
+    &copy; 2026 Blockify – Agustín Louro Paz. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    const routes = {
+      'es': '/es/politica-privacidad/',
+      'en': '/en/privacy-policy/',
+      'de': '/de/datenschutz/'
+    };
+
+    const langNames = { 'es': 'Español', 'en': 'English', 'de': 'Deutsch' };
+
+    function getBrowserLang() {
+      return (navigator.language || navigator.userLanguage).split('-')[0].toLowerCase();
+    }
+
+    function autoRedirect() {
+      if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+        const userLang = getBrowserLang();
+        const target = routes[userLang] || routes['es'];
+        window.location.replace(target);
+      }
+    }
+
+    function renderSwitcher() {
+      const current = window.location.pathname;
+      let html = '';
+      for (const [code, path] of Object.entries(routes)) {
+        const active = current === path ? 'active' : '';
+        html += `<a href="${path}" class="${active}">${langNames[code]}</a>`;
+      }
+      document.getElementById('langSwitcher').innerHTML = html;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderSwitcher();
+      autoRedirect();
+    });
+  </script>
+</body>
+</html>
