@@ -1,0 +1,6 @@
+title: Blockify
+baseurl: ""
+url: "https://alouropaz-blockify.github.io/blockify-privacy"
+
+plugins:
+  - jekyll-relative-links
